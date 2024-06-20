@@ -7,7 +7,7 @@ namespace StockApp.Domain.Interfaces
         Task<IEnumerable<Product>> GetAllAsync();
 
         Task<Product> GetByIdAsync(int? id);
-        Task<Product> Create(Product product);
+        Task<Product> AddAsync(Product product);
         Task<Product> Update(Product product);
         Task<Product> Remove(Product product);
     }
