@@ -32,7 +32,7 @@ namespace StockApp.Application.Products.Handlers
             else
             {
                 product.CategoryId= request.CategoryId;
-                return await _productRepository.Create(product);
+                return await _productRepository.AddAsync(product);
             }
         }
     }
