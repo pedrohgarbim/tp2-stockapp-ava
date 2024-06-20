@@ -27,6 +27,8 @@ namespace StockApp.Infra.IoC
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddSingleton<ISmsService, SmsService>();
             services.AddSingleton<ISmsFeedbackService, SmsFeedbackService>();
+            services.AddSingleton<IAnonymousFeedbackService, AnonymousFeedbackService>();
+
 
             services.AddAutoMapper(typeof(DomainToDTOMappingProfile));
 
