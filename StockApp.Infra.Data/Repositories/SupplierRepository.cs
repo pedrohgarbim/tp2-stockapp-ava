@@ -2,6 +2,7 @@
 using StockApp.Domain.Interfaces;
 using StockApp.Infra.Data.Context;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 
 namespace StockApp.Infra.Data.Repositories
 {
@@ -49,6 +50,23 @@ namespace StockApp.Infra.Data.Repositories
         public Task<IEnumerable<Supplier>> GetAllAsync()
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<IEnumerable<Supplier>> SearchAsync(string name, string contactEmail)
+        {
+            var query = _Suppliercontext.Suppliers.AsQueryable();
+
+            if (!string.IsNullOrEmpty(name))
+            {
+                query = query.Where(s => s.Name.Contains(name));
+            }
+
+            if (!string.IsNullOrEmpty(contactEmail))
+            {
+                query = query.Where(s => s.ContactEmail.Contains(contactEmail));
+            }
+
+            return await query.ToListAsync();
         }
     }
 }
