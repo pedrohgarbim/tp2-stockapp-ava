@@ -47,7 +47,7 @@ namespace StockApp.Infra.Data.Repositories
         public async Task<IEnumerable<Product>> GetLowStockAsync(int threshold)
         {
             return await _productContext.Products
-                .Where(propa => propa.Stock < threshold)
+                .Where(p => p.Stock < threshold)
                 .ToListAsync();
         }
         
