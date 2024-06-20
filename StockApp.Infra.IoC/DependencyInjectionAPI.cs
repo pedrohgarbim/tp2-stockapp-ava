@@ -18,8 +18,8 @@ namespace StockApp.Infra.IoC
             IConfiguration configuration)
         {
             services.AddDbContext<ApplicationDbContext>(options =>
-             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"
-            ), b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
+             options.UseSqlServer(configuration.GetConnectionString("DefaultConnection")
+            , b => b.MigrationsAssembly(typeof(ApplicationDbContext).Assembly.FullName)));
 
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IProductRepository, ProductRepository>();
@@ -27,9 +27,12 @@ namespace StockApp.Infra.IoC
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<ILowStockReportService, LowStockReportService>();
-            services.AddSingleton<ISmsService, SmsService>();
-            services.AddSingleton<ISmsFeedbackService, SmsFeedbackService>();
-            services.AddSingleton<IAnonymousFeedbackService, AnonymousFeedbackService>();
+
+            services.AddScoped<ISmsService, SmsService>();
+            services.AddScoped<ISmsFeedbackService, SmsFeedbackService>();
+            services.AddScoped<IAnonymousFeedbackService, AnonymousFeedbackService>();
+            services.AddScoped<ISentimentAnalysisService, SentimentAnalysisService>();
+            services.AddScoped<IFeedbackService, FeedbackService>();
 
 
             services.AddAutoMapper(typeof(DomainToDTOMappingProfile));
