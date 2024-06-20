@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using StockApp.Domain.Entities;
 using StockApp.Domain.Interfaces;
+using System.Linq;
+using System.Text;
 
 namespace StockApp.API.Controllers
 {
@@ -95,5 +97,19 @@ namespace StockApp.API.Controllers
             return Ok(products);
         }
 
+        [HttpGet("export-csv")]
+        public async Task<ActionResult<IEnumerable<Product>>> ExportToCsv()
+        {
+            var products = await _productRepository.GetAllAsync();
+            var csv = new StringBuilder();
+            csv.AppendLine("Id,Name,Description,Price,Stock");
+
+            foreach (var product in products)
+            {
+                csv.AppendLine($"{product.Id},{product.Name},{product.Description},{product.Price},{product.Stock}");
+            }
+
+            return File(Encoding.UTF8.GetBytes(csv.ToString()), "text/csv", "products.csv");
+        }
     }
 }
