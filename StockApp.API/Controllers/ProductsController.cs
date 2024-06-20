@@ -66,5 +66,12 @@ namespace StockApp.API.Controllers
             return NoContent();
         }
 
+        [HttpPut("bulk-update")]
+        public async Task<ActionResult> BulkUpdate([FromBody] List<Product> products)
+        {
+            await _productRepository.BulkUpdateAsync(products);
+            return NoContent();
+        }
+
     }
 }
