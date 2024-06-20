@@ -25,6 +25,7 @@ namespace StockApp.Infra.IoC
             services.AddScoped<IProductRepository, ProductRepository>();
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<ICategoryService, CategoryService>();
+            services.AddSingleton<ISmsService, SmsService>();
 
             services.AddAutoMapper(typeof(DomainToDTOMappingProfile));
 
