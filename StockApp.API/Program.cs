@@ -1,4 +1,8 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using StockApp.Infra.IoC;
+using System.Text;
+using Microsoft.IdentityModel.Tokens;
+using StockApp.Application.DTOs;
 
 internal class Program
 {
@@ -28,6 +32,27 @@ internal class Program
                        .AllowAnyHeader();
             });
         });
+        var key = Encoding.ASCII.GetBytes("3xmpl3V3ryS3cur3S3cr3tK3y!@#123");
+        builder.Services.AddAuthentication(options =>
+        {
+            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        })
+        .AddJwtBearer(options =>
+        {
+            options.RequireHttpsMetadata = false;
+            options.SaveToken = true;
+            options.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = builder.Configuration["JwtSettings:MyAppIssuer"],
+                ValidAudience = builder.Configuration["JwtSettings:MyAppAudience"],
+                IssuerSigningKey = new SymmetricSecurityKey(key)
+            };
+        });
+
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
