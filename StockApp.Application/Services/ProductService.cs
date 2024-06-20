@@ -30,19 +30,19 @@ namespace StockApp.Application.Services
 
         public async Task<IEnumerable<ProductDTO>> GetProducts()
         {
-            var productsEntity = await _productRepository.GetProducts();
+            var productsEntity = await _productRepository.GetAllAsync();
             return _mapper.Map<IEnumerable<ProductDTO>>(productsEntity);
         }
 
         public async Task<ProductDTO> GetProductById(int? id)
         {
-            var productEntity = _productRepository.GetById(id);
+            var productEntity = _productRepository.GetByIdAsync(id);
             return _mapper.Map<ProductDTO>(productEntity);
         }
 
         public async Task Remove(int? id)
         {
-            var productEntity = _productRepository.GetById(id).Result;
+            var productEntity = _productRepository.GetByIdAsync(id).Result;
             await _productRepository.Remove(productEntity);
         }
 
