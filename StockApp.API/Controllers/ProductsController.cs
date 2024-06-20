@@ -48,5 +48,23 @@ namespace StockApp.API.Controllers
            
         }
 
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, Product product)
+        {
+            if (id != product.Id)
+            {
+                return BadRequest();
+            }
+
+            var existingProduct = await _productRepository.GetByIdAsync(id);
+            if (existingProduct == null)
+            {
+                return NotFound();
+            }
+
+            await _productRepository.UpdateAsync(product);
+            return NoContent();
+        }
+
     }
 }

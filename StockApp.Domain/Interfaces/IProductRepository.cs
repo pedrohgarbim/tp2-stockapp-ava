@@ -8,7 +8,7 @@ namespace StockApp.Domain.Interfaces
 
         Task<Product> GetByIdAsync(int? id);
         Task<Product> AddAsync(Product product);
-        Task<Product> Update(Product product);
+        Task<Product> UpdateAsync(Product product);
         Task<Product> Remove(Product product);
     }
 }
