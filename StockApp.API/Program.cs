@@ -55,6 +55,10 @@ internal class Program
                 IssuerSigningKey = new SymmetricSecurityKey(key)
             };
         });
+        builder.Services.AddStackExchangeRedisCache(options =>
+        {
+            options.Configuration = builder.Configuration.GetConnectionString("Redis");
+        });
 
         var app = builder.Build();
 
