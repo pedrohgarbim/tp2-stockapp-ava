@@ -51,5 +51,10 @@ namespace StockApp.Application.Services
             var productEntity = _mapper.Map<Product>(productDto);
             await _productRepository.UpdateAsync(productEntity);
         }
+
+        public async Task BulkUpdateAsync(IEnumerable<Product> products)
+        {
+            await _productRepository.BulkUpdateAsync(products);
+        }
     }
 }
