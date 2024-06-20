@@ -13,5 +13,6 @@ namespace StockApp.Domain.Interfaces
         Task AddAsync(Supplier supplier);
         Task UpdateAsync(Supplier supplier);
         Task DeleteAsync(int id);
+        Task<IEnumerable<Supplier>> SearchAsync(string name, string contactEmail);
     }
 }
