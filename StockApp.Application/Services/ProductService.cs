@@ -49,7 +49,7 @@ namespace StockApp.Application.Services
         public async Task Update(ProductDTO productDto)
         {
             var productEntity = _mapper.Map<Product>(productDto);
-            await _productRepository.Update(productEntity);
+            await _productRepository.UpdateAsync(productEntity);
         }
     }
 }
