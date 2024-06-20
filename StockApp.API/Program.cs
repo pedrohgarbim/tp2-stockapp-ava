@@ -14,6 +14,11 @@ internal class Program
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 
+        builder.Services.AddAuthorization(options =>
+        {
+            options.AddPolicy("RequireAdministratorRole",
+                 policy => policy.RequireRole("Administrator"));
+        });
         builder.Services.AddCors(options =>
         {
             options.AddPolicy("AllowAll", builder =>
