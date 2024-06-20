@@ -59,5 +59,36 @@ namespace StockApp.Infra.Data.Repositories
             _productContext.Products.UpdateRange(products);
             await _productContext.SaveChangesAsync();
         }
+
+        public async Task<IEnumerable<Product>> SearchAsync(string query, string sortBy, bool descending)
+        {
+            IQueryable<Product> queryable = _productContext.Products;
+
+            if (!string.IsNullOrEmpty(query))
+            {
+                queryable = queryable.Where(p => 
+                p.Name.Contains(query) || 
+                p.Description.Contains(query));
+            }
+
+            if(!string.IsNullOrEmpty(sortBy))
+            {
+                Func<Product, object> orderByFunc = sortBy.ToLower() switch
+                {
+                    "name" => (Func<Product, object>)(p => p.Name),
+                    "price" => p => p.Price,
+                    "stock" => p => p.Stock,
+                    _ => p => p.Id
+                };
+
+                queryable = (IQueryable<Product>)(descending ? queryable.OrderByDescending(orderByFunc) : queryable.OrderBy(orderByFunc));
+            }
+            else
+            {
+                queryable = queryable.OrderBy(p => p.Id);
+            }
+
+            return await queryable.ToListAsync();
+        }
     }
 }
