@@ -85,5 +85,15 @@ namespace StockApp.API.Controllers
             return NoContent();
         }
 
+        [HttpGet("search")]
+        public async Task<ActionResult<IEnumerable<Product>>> Search (
+            [FromQuery] string query, 
+            [FromQuery] string sortBy, 
+            [FromQuery] bool descending)
+        {
+            var products = await _productRepository.SearchAsync(query, sortBy, descending);
+            return Ok(products);
+        }
+
     }
 }
