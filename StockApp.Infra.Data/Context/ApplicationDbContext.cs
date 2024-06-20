@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using StockApp.Domain;
 using StockApp.Domain.Entities;
 using System;
 using System.Collections.Generic;
@@ -16,6 +17,8 @@ namespace StockApp.Infra.Data.Context
         //sqlservericoma.database.windows.net
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<Supplier> Suppliers { get; set; }
+
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
