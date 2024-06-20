@@ -3,6 +3,8 @@ using StockApp.Infra.IoC;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
 using StockApp.Application.DTOs;
+using StockApp.Domain.Interfaces;
+using StockApp.Infra.Data.Repositories;
 
 internal class Program
 {
@@ -14,6 +16,7 @@ internal class Program
         builder.Services.AddInfrastructureAPI(builder.Configuration);
 
         builder.Services.AddControllers();
+        builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
@@ -58,12 +61,15 @@ internal class Program
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
         {
+            app.UseDeveloperExceptionPage();
             app.UseSwagger();
             app.UseSwaggerUI();
         }
 
         app.UseCors("AllowAll");
         app.UseHttpsRedirection();
+
+        app.UseRouting();
 
         app.UseAuthorization();
 

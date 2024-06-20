@@ -43,7 +43,7 @@ namespace StockApp.Application.Services
         public async Task Remove(int? id)
         {
             var productEntity = _productRepository.GetByIdAsync(id).Result;
-            await _productRepository.Remove(productEntity);
+            await _productRepository.DeleteAsync(id);
         }
 
         public async Task Update(ProductDTO productDto)

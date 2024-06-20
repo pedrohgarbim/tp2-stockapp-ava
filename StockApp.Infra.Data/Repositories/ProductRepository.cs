@@ -30,18 +30,21 @@ namespace StockApp.Infra.Data.Repositories
             return await _productContext.Products.ToListAsync();
         }
 
-        public async Task<Product> Remove(Product product)
-        {
-            _productContext.Remove(product);
-            await _productContext.SaveChangesAsync();
-            return product;
-        }
-
         public async Task<Product> UpdateAsync(Product product)
         {
             _productContext.Update(product);
             await _productContext.SaveChangesAsync();
             return product;
+        }
+
+        public async Task DeleteAsync(int? id)
+        {
+            var products = await _productContext.Products.FindAsync(id);
+            if (products != null)
+            {
+                _productContext.Products.Remove(products);
+                await _productContext.SaveChangesAsync();
+            }
         }
 
         public async Task<IEnumerable<Product>> GetLowStockAsync(int threshold)

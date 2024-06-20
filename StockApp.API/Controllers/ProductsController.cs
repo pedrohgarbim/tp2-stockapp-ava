@@ -66,6 +66,18 @@ namespace StockApp.API.Controllers
             return NoContent();
         }
 
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var product = await _productRepository.GetByIdAsync(id);
+            if (product == null)
+            {
+                return NotFound();
+            }
+            await _productRepository.DeleteAsync(id);
+            return NoContent();
+        }
+
         [HttpPut("bulk-update")]
         public async Task<ActionResult> BulkUpdate([FromBody] List<Product> products)
         {
