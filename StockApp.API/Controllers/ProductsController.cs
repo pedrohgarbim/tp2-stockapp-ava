@@ -119,5 +119,25 @@ namespace StockApp.API.Controllers
             var products = await _productRepository.GetFilteredAsync(name, minPrice, maxPrice);
             return Ok(products);
         }
+
+        [HttpPost("{id}/upload-image")]
+        public async Task<IActionResult> UploadImage(int id, IFormFile image)
+        {
+            if (image == null || image.Length == 0)
+            {
+                return BadRequest("Invalid image.");
+            }
+
+            var filePath = Path.Combine("wwwroot/images", $"{id}.jpg");
+
+            Directory.CreateDirectory(Path.GetDirectoryName(filePath));
+
+            using (var stream = new FileStream(filePath, FileMode.Create))
+            {
+                await image.CopyToAsync(stream);
+            }
+
+            return Ok();
+        }
     }
 }

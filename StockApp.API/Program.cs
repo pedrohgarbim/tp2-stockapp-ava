@@ -77,6 +77,8 @@ internal class Program
 
         app.UseCors("AllowAll");
         app.UseHttpsRedirection();
+        app.UseStaticFiles();
+        app.UseDirectoryBrowser();
 
         app.UseRouting();
 
