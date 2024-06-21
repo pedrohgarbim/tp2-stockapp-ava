@@ -20,6 +20,7 @@ namespace StockApp.API.Controllers
         }
 
         [HttpGet]
+        [ResponseCache(Duration = 60, Location = ResponseCacheLocation.Any, NoStore = false)]
         public async Task<ActionResult<IEnumerable<Product>>> GetAll()
         {
             var products = await _productRepository.GetAllAsync();

@@ -22,6 +22,8 @@ internal class Program
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 
+        builder.Services.AddResponseCaching();
+
         builder.Services.AddSingleton<ITaxService, TaxService>();
 
         builder.Services.AddAuthorization(options =>
@@ -79,6 +81,8 @@ internal class Program
         app.UseRouting();
 
         app.UseAuthorization();
+
+        app.UseResponseCaching();
 
         app.MapControllers();
 
