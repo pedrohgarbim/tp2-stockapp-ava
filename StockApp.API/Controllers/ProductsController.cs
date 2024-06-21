@@ -200,9 +200,9 @@ namespace StockApp.API.Controllers
                 return BadRequest("Invalid image.");
             }
 
-            var filePath = Path.Combine("wwwroot/images", $"{id}.jpg");
+            var filePath = System.IO.Path.Combine("wwwroot/images", $"{id}.jpg");
 
-            Directory.CreateDirectory(Path.GetDirectoryName(filePath));
+            Directory.CreateDirectory(System.IO.Path.GetDirectoryName(filePath));
 
             using (var stream = new FileStream(filePath, FileMode.Create))
             {
