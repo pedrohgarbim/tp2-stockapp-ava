@@ -31,7 +31,7 @@ internal class Program
 
         // Add services to the container.
         builder.Services.AddInfrastructureAPI(builder.Configuration);
-
+        builder.Services.AddSingleton<ISupplierRelationshipManagementService, SupplierRelationshipManagementService>();
         builder.Services.AddControllers();
         builder.Services.AddScoped<IProductRepository, ProductRepository>();
 
