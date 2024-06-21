@@ -1,10 +1,12 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Localization;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using StockApp.Domain.Entities;
 using StockApp.Domain.Interfaces;
 using System.Linq;
 using System.Text;
+using StockApp.API.Resources;
 
 namespace StockApp.API.Controllers
 {
@@ -12,11 +14,13 @@ namespace StockApp.API.Controllers
     [Route("api/[controller]")]
     public class ProductsController : ControllerBase
     {
-        private readonly IProductRepository _productRepository; 
+        private readonly IProductRepository _productRepository;
+        private readonly IStringLocalizer<SharedResource> _localizer;
 
-        public ProductsController(IProductRepository productRepository)
+        public ProductsController(IProductRepository productRepository, IStringLocalizer<SharedResource> localizer)
         {
             _productRepository = productRepository;
+            _localizer = localizer;
         }
 
         [HttpGet]
