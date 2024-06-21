@@ -27,6 +27,8 @@ internal class Program
 
         builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 
+        builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+
         builder.Services.AddResponseCaching();
 
         builder.Services.AddSingleton<ITaxService, TaxService>();
@@ -45,6 +47,9 @@ internal class Program
                        .AllowAnyHeader();
             });
         });
+
+        builder.Services.AddScoped<IUserAuditService, UserAuditService>();
+
         var key = Encoding.ASCII.GetBytes("3xmpl3V3ryS3cur3S3cr3tK3y!@#123");
         builder.Services.AddAuthentication(options =>
         {
@@ -88,6 +93,7 @@ internal class Program
         app.UseRouting();
 
         app.UseAuthorization();
+
 
         var supportedCultures = new[] { new CultureInfo("en-US"), new CultureInfo("pt-BR") };
         app.UseRequestLocalization(new RequestLocalizationOptions
