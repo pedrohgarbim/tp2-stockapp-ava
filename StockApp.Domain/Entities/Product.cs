@@ -16,6 +16,7 @@ namespace StockApp.Domain.Entities
         [Required(ErrorMessage = "The Name field is required.")]
         [StringLength(100, ErrorMessage = "The name must be at most 100 characters long.")]
         public string Name { get; set; }
+        public ICollection<Order> Orders { get; set;}
 
         [Required(ErrorMessage = "The Description field is required.")]
         [StringLength(500, ErrorMessage = "The Name must be at most 500 characters long.")]
