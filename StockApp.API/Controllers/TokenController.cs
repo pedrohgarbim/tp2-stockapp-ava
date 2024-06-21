@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using StockApp.Application.DTOs;
 using Microsoft.AspNetCore.Authentication;
+using StockApp.Application.Interfaces;
 
 namespace StockApp.API.Controllers
 {
@@ -9,9 +10,9 @@ namespace StockApp.API.Controllers
     [Route("api/[controller]")]
     public class TokenController : ControllerBase
     {
-        private readonly IAuthenticationService _authenticationService;
+        private readonly IAuthService _authenticationService;
 
-        public TokenController(IAuthenticationService authenticationService)
+        public TokenController(IAuthService authenticationService)
         {
             _authenticationService = authenticationService;
         }
@@ -19,7 +20,11 @@ namespace StockApp.API.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] UserLoginDto userLoginDto)
         {
-            var token = await _authenticationService.AuthenticateAsync(null, userLoginDto.Password);
+            if(string.IsNullOrEmpty(userLoginDto.Username) || string.IsNullOrEmpty(userLoginDto.Password))
+            {
+                return BadRequest();
+            }
+            var token = await _authenticationService.AuthenticateAsync(userLoginDto.Username, userLoginDto.Password);
             if (token == null)
             {
                 return Unauthorized();
