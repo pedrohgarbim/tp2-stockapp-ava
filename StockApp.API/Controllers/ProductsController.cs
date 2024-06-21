@@ -97,16 +97,6 @@ namespace StockApp.API.Controllers
             return Ok(products);
         }
 
-        [HttpGet("products-search")]
-        public async Task<ActionResult<IEnumerable<Product>>> Search(
-            [FromQuery] string name,
-            [FromQuery] decimal? minPrice,
-            [FromQuery] decimal? maxPrice)
-        {
-            var products = await _productRepository.SearchAsync(name, minPrice, maxPrice);
-            return Ok(products);
-        }
-
         [HttpGet("export-csv")]
         public async Task<ActionResult<IEnumerable<Product>>> ExportToCsv()
         {
