@@ -13,6 +13,27 @@ namespace StockApp.Infra.Data.Repositories
             _productContext = context;
         }
 
+        public async Task<IEnumerable<Product>> SearchAsync(string name, decimal? minPrice, decimal? maxPrice)
+        {
+            var query = _productContext.Products.AsQueryable();
+
+            if(!string.IsNullOrEmpty(name) )
+            {
+                query = query.Where(p => p.Name.Contains(name));
+            }
+
+            if(minPrice.HasValue)
+            {
+                query = query.Where(p => p.Price >= minPrice.Value);
+            }
+            if(maxPrice.HasValue)
+            {
+                query = query.Where(p => p.Price <= maxPrice.Value);
+            }
+
+            return await query.ToListAsync();
+        }
+
         public async Task<Product> AddAsync(Product product)
         {
             _productContext.Add(product);
