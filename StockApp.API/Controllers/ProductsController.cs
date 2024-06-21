@@ -111,5 +111,12 @@ namespace StockApp.API.Controllers
 
             return File(Encoding.UTF8.GetBytes(csv.ToString()), "text/csv", "products.csv");
         }
+
+        [HttpGet("filtered")]
+        public async Task<ActionResult<IEnumerable<Product>>> GetFiltered([FromQuery] string name, [FromQuery] decimal? minPrice, [FromQuery] decimal? maxPrice)
+        {
+            var products = await _productRepository.GetFilteredAsync(name, minPrice, maxPrice);
+            return Ok(products);
+        }
     }
 }
