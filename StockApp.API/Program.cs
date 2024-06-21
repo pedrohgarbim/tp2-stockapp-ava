@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Localization;
 using System.Globalization;
 using Microsoft.OpenApi.Models;
 using StockApp.Application.Interfaces;
+using StockApp.API.GraphQL;
 
 
 
@@ -27,6 +28,10 @@ internal class Program
 
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
+
+        builder.Services.AddGraphQLServer()
+            .AddQueryType<Query>()
+            .AddMutationType<Mutation>();
 
         builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
 
@@ -143,6 +148,8 @@ internal class Program
         app.UseResponseCaching();
 
         app.MapControllers();
+
+        app.MapGraphQL();
 
         app.Run();
     }
