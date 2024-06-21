@@ -8,6 +8,7 @@ using StockApp.Infra.Data.Repositories;
 using StockApp.Application.Services;
 using Microsoft.AspNetCore.Localization;
 using System.Globalization;
+using Microsoft.OpenApi.Models;
 
 
 internal class Program
@@ -75,6 +76,33 @@ internal class Program
             options.Configuration = builder.Configuration.GetConnectionString("Redis");
         });
 
+        builder.Services.AddSwaggerGen(c =>
+        {
+            c.SwaggerDoc("v1", new OpenApiInfo { Title = "My API", Version = "v1" });
+
+            var securitySchema = new OpenApiSecurityScheme
+            {
+                Description = "Authorization: Bearer {token}",
+                Name = "Authorization",
+                In = ParameterLocation.Header,
+                Type = SecuritySchemeType.Http,
+                Scheme = "bearer",
+                BearerFormat = "JWT",
+                Reference = new OpenApiReference
+                {
+                    Type = ReferenceType.SecurityScheme,
+                    Id = "Bearer"
+                }
+            };
+            c.AddSecurityDefinition("Bearer", securitySchema);
+
+            var securityRequirement = new OpenApiSecurityRequirement
+            {
+                { securitySchema, new [] { "Bearer" } }
+            };
+
+            c.AddSecurityRequirement(securityRequirement);
+        });
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
