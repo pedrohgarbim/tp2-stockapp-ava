@@ -107,6 +107,11 @@ internal class Program
 
             c.AddSecurityRequirement(securityRequirement);
         });
+        builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+        builder.Services.AddStackExchangeRedisCache(options =>
+        {
+            options.Configuration = builder.Configuration.GetConnectionString("Redis");
+        });
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.

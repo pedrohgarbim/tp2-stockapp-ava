@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.Extensions.Caching.Distributed;
 using StockApp.Application.DTOs;
 using StockApp.Application.Interfaces;
 using StockApp.Domain.Entities;
@@ -7,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace StockApp.Application.Services
@@ -15,11 +17,14 @@ namespace StockApp.Application.Services
     {
         private IProductRepository _productRepository;
         private IMapper _mapper;
+        private readonly IDistributedCache _cache;
+        private const string CacheKeyPrefix = "Product_";
 
-        public ProductService(IProductRepository productRepository, IMapper mapper)
+        public ProductService(IProductRepository productRepository, IMapper mapper, IDistributedCache cache)
         {
             _productRepository = productRepository;
             _mapper = mapper;
+            _cache = cache;
         }
 
         public async Task Add(ProductDTO productDto)
@@ -30,7 +35,20 @@ namespace StockApp.Application.Services
 
         public async Task<IEnumerable<ProductDTO>> GetProducts()
         {
+            var cacheKey = $"{CacheKeyPrefix}{GetProducts}";
+
+            var cachedProducts = await _cache.GetStringAsync(cacheKey);
+            if (!string.IsNullOrEmpty(cachedProducts))
+            {
+                return null; // nao implementado
+            }
             var productsEntity = await _productRepository.GetAllAsync();
+            var cacheOptions = new DistributedCacheEntryOptions
+            {
+                AbsoluteExpirationRelativeToNow = TimeSpan.FromSeconds(60)
+            };
+
+            await _cache.SetStringAsync(cacheKey, cachedProducts, cacheOptions);
             return _mapper.Map<IEnumerable<ProductDTO>>(productsEntity);
         }
 
