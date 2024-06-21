@@ -7,6 +7,7 @@ using StockApp.Domain.Interfaces;
 using System.Linq;
 using System.Text;
 using StockApp.API.Resources;
+using StockApp.Application.Services;
 
 namespace StockApp.API.Controllers
 {
@@ -16,11 +17,13 @@ namespace StockApp.API.Controllers
     {
         private readonly IProductRepository _productRepository;
         private readonly IStringLocalizer<SharedResource> _localizer;
+        private readonly ProductImportService _productImportService;
 
-        public ProductsController(IProductRepository productRepository, IStringLocalizer<SharedResource> localizer)
+        public ProductsController(IProductRepository productRepository, IStringLocalizer<SharedResource> localizer, ProductImportService productImportService)
         {
             _productRepository = productRepository;
             _localizer = localizer;
+            _productImportService = productImportService;
         }
 
         [HttpGet]
@@ -140,6 +143,19 @@ namespace StockApp.API.Controllers
             {
                 await image.CopyToAsync(stream);
             }
+
+            return Ok();
+        }
+
+        [HttpPost("import")]
+        public async Task<IActionResult> ImportFromCsv(IFormFile file)
+        {
+            if (file == null || file.Length == 0) 
+            {
+                return BadRequest("Invalid file.");
+            }
+
+            await _productImportService.ImportProductAsync(file.OpenReadStream());
 
             return Ok();
         }
