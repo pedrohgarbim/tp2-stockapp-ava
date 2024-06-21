@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.ComponentModel.DataAnnotations;
 
 namespace StockApp.Domain.Entities
 {
@@ -11,11 +12,25 @@ namespace StockApp.Domain.Entities
     {
         #region Atributos
         public int Id { get; set; }
+
+        [Required(ErrorMessage = "The Name field is required.")]
+        [StringLength(100, ErrorMessage = "The name must be at most 100 characters long.")]
         public string Name { get; set; }
+
+        [Required(ErrorMessage = "The Description field is required.")]
+        [StringLength(500, ErrorMessage = "The Name must be at most 500 characters long.")]
         public string Description { get; set; }
+
+        [Range(0, double.MaxValue, ErrorMessage = "The price must be a non-negative value.")]
         public decimal Price { get; set; }
+
+        [Range(0, int.MaxValue, ErrorMessage = "The Stock must be a non-negative value.")]
         public int Stock { get; set;}
+
+        [StringLength(250, ErrorMessage = "The Image name must be at most 250 characters long.")]
         public string Image { get; set; }
+
+        [Required(ErrorMessage = "The CategoryId field is required.")]
         public int CategoryId { get; set; }
         #endregion
 
@@ -53,7 +68,12 @@ namespace StockApp.Domain.Entities
 
             DomainExceptionValidation.When(stock < 0, "Invalid stock negative value.");
 
-            DomainExceptionValidation.When(image.Length > 250, "Invalid image name, too long, maximum 250 characters.");
+            if (!string.IsNullOrEmpty(Image))
+            {
+                DomainExceptionValidation.When(image.Length > 250, "Invalid image name, too long, maximum 250 characters.");
+
+            }
+
 
         }
     }
