@@ -27,7 +27,7 @@ namespace StockApp.Infra.IoC
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<ICategoryService, CategoryService>();
             services.AddScoped<ILowStockReportService, LowStockReportService>();
-
+            services.AddScoped<ProductImportService, ProductImportService>();
             services.AddScoped<ISmsService, SmsService>();
             services.AddScoped<ISmsFeedbackService, SmsFeedbackService>();
             services.AddScoped<IAnonymousFeedbackService, AnonymousFeedbackService>();
