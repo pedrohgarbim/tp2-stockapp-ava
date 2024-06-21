@@ -53,6 +53,7 @@ internal class Program
 
         builder.Services.AddScoped<IUserAuditService, UserAuditService>();
         builder.Services.AddScoped<IEmailService, EmailService>();
+        builder.Services.AddHttpClient<IWebhookService, WebhookService>();
 
         var key = Encoding.ASCII.GetBytes("3xmpl3V3ryS3cur3S3cr3tK3y!@#123");
         builder.Services.AddAuthentication(options =>
