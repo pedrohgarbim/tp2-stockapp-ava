@@ -8,6 +8,7 @@ using StockApp.Infra.Data.Repositories;
 using StockApp.Application.Services;
 using Microsoft.AspNetCore.Localization;
 using System.Globalization;
+using StockApp.Application.Interfaces;
 
 
 internal class Program
@@ -49,6 +50,7 @@ internal class Program
         });
 
         builder.Services.AddScoped<IUserAuditService, UserAuditService>();
+        builder.Services.AddScoped<IEmailService, EmailService>();
 
         var key = Encoding.ASCII.GetBytes("3xmpl3V3ryS3cur3S3cr3tK3y!@#123");
         builder.Services.AddAuthentication(options =>
