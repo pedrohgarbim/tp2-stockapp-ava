@@ -9,6 +9,7 @@ using StockApp.Domain.Entities;
 using StockApp.Domain.Interfaces;
 using StockApp.API.Resources;
 using StockApp.Application.Services;
+using StockApp.Application.Interfaces;
 
 namespace StockApp.API.Controllers
 {
@@ -19,12 +20,17 @@ namespace StockApp.API.Controllers
         private readonly IProductRepository _productRepository;
         private readonly IStringLocalizer<SharedResource> _localizer;
         private readonly ProductImportService _productImportService;
+        private readonly IReviewService _reviewService;
+        private readonly IReviewRepository _reviewRepository;
 
-        public ProductsController(IProductRepository productRepository, IStringLocalizer<SharedResource> localizer, ProductImportService productImportService)
+        public ProductsController
+            (IProductRepository productRepository, IStringLocalizer<SharedResource> localizer, ProductImportService productImportService, IReviewService reviewService, IReviewRepository reviewRepository)
         {
             _productRepository = productRepository;
             _localizer = localizer;
             _productImportService = productImportService;
+            _reviewService = reviewService;
+            _reviewRepository = reviewRepository;
         }
 
         /// <summary>
@@ -229,6 +235,29 @@ namespace StockApp.API.Controllers
             await _productImportService.ImportProductAsync(file.OpenReadStream());
 
             return Ok();
+        }
+
+        [HttpPost("{productsId}/review")]
+        public async Task<IActionResult> AddReview(int productId, [FromBody] Review review)
+        {
+            try
+            {
+                if(review.Rating < 1|| review.Rating > 5)
+                {
+                    return BadRequest("A nota deve estar entre 1 e 5");
+                }
+
+                review.ProductId = productId;
+                review.Date = DateTime.Now;
+
+                await _reviewRepository.AddAsync(review);
+
+                return Ok(review);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, ex.Message);
+            }
         }
     }
 }
