@@ -111,5 +111,28 @@ namespace StockApp.Infra.Data.Repositories
 
             return await queryable.ToListAsync();
         }
+
+        public async Task<IEnumerable<Product>> GetFilteredAsync(string name, decimal? minPrice, decimal? maxPrice)
+        {
+            var query = _productContext.Products.AsQueryable();
+
+            if (!string.IsNullOrEmpty(name))
+            {
+                query = query.Where(p => p.Name.Contains(name));
+            }
+
+            if (minPrice > 0)
+            {
+                query = query.Where(p => p.Price >= minPrice);
+            }
+
+
+            if (maxPrice > 0)
+            {
+                query = query.Where(p => p.Price <= maxPrice);
+            }
+
+            return await query.ToListAsync();
+        }
     }
 }
