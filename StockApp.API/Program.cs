@@ -11,7 +11,7 @@ using System.Globalization;
 using Microsoft.OpenApi.Models;
 using StockApp.Application.Interfaces;
 using StockApp.API.GraphQL;
-
+using Serilog;
 
 
 internal class Program
@@ -19,6 +19,15 @@ internal class Program
     private static void Main(string[] args)
     {
         var builder = WebApplication.CreateBuilder(args);
+
+        // Configuração do Serilog
+        Log.Logger = new LoggerConfiguration()
+            .WriteTo.Console()
+            .WriteTo.File("logs/log-.txt", rollingInterval: RollingInterval.Day)
+            .CreateLogger();
+
+        // Usar o Serilog como logger da aplicação
+        builder.Host.UseSerilog();
 
         // Add services to the container.
         builder.Services.AddInfrastructureAPI(builder.Configuration);
@@ -134,6 +143,10 @@ internal class Program
 
         app.UseRouting();
 
+        // Middleware para log de requisições.
+        app.UseSerilogRequestLogging();
+
+        app.UseAuthentication();
         app.UseAuthorization();
 
 
@@ -152,5 +165,7 @@ internal class Program
         app.MapGraphQL();
 
         app.Run();
+
+        Log.CloseAndFlush();
     }
 }
