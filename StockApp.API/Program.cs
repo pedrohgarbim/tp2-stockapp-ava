@@ -5,6 +5,7 @@ using Microsoft.IdentityModel.Tokens;
 using StockApp.Application.DTOs;
 using StockApp.Domain.Interfaces;
 using StockApp.Infra.Data.Repositories;
+using StockApp.Application.Services;
 
 internal class Program
 {
@@ -20,6 +21,8 @@ internal class Program
 
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
+
+        builder.Services.AddSingleton<ITaxService, TaxService>();
 
         builder.Services.AddAuthorization(options =>
         {
