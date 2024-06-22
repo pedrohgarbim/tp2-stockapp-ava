@@ -15,6 +15,7 @@ namespace StockApp.Domain.Entities
         public int Quantity { get; set; }
         public decimal Price { get; set; }
         public decimal TotalAmount { get; set; }
+        public DateTime Date {  get; set; }
         public ICollection<Product> Products { get; set; }
     }
 }
