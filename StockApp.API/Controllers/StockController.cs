@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using StockApp.Application.DTOs;
+using StockApp.Application.Interfaces;
 using StockApp.Infra.Data.Context;
 
 namespace StockApp.API.Controllers
@@ -10,10 +11,12 @@ namespace StockApp.API.Controllers
     public class StockController : ControllerBase
     {
         private readonly ApplicationDbContext _context;
+        private readonly IJustInTimeInventoryService _justInTimeInventoryService;
 
-        public StockController(ApplicationDbContext context)
+        public StockController(ApplicationDbContext context, IJustInTimeInventoryService justInTimeInventoryService)
         {
             _context = context;
+            _justInTimeInventoryService = justInTimeInventoryService;
         }
 
         [HttpGet("dashboard-stock")]
@@ -33,6 +36,13 @@ namespace StockApp.API.Controllers
                 .ToListAsync()
             };
             return Ok(dashboardData);
+        }
+
+        [HttpPost("JIT")]
+        public async Task<IActionResult> OptimizeInventory()
+        {
+            await _justInTimeInventoryService.OptimizeInventoryAsync();
+            return Ok();
         }
     }
 }
