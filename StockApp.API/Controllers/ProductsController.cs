@@ -259,5 +259,14 @@ namespace StockApp.API.Controllers
                 return StatusCode(500, ex.Message);
             }
         }
+
+        [HttpPost("compare")]
+        public async Task<ActionResult<IEnumerable<Product>>> CompareProducts([FromBody] List<int> productIds)
+        {
+            var products = await _productRepository.GetByIdsAsync(productIds);
+            return Ok(products);
+        }
+
+
     }
 }
