@@ -10,5 +10,6 @@ namespace StockApp.Domain.Interfaces
    public interface IOrderRepository
     {
         Task <IEnumerable<Order>> GetByUserIdAsync(string userId);
+        Task<IEnumerable<Order>> GetByProductAsync(int productId);
     }
 }
