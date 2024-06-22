@@ -1,4 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using StockApp.Application.DTOs;
+using StockApp.Application.Interfaces;
+using StockApp.Application.Services;
 using StockApp.Domain.Interfaces;
 
 namespace StockApp.API.Controllers
@@ -8,10 +11,14 @@ namespace StockApp.API.Controllers
     public class InventoryController : ControllerBase
     {
         private readonly IInventoryService _inventoryService;
+        private readonly IInventoryManagementService _inventoryManagementService;
 
-        public InventoryController(IInventoryService inventoryService)
+        public InventoryController(
+            IInventoryService inventoryService,
+            IInventoryManagementService inventoryManagementService)
         {
             _inventoryService = inventoryService;
+            _inventoryManagementService = inventoryManagementService;
         }
 
         [HttpPost("replenish")]
@@ -20,5 +27,27 @@ namespace StockApp.API.Controllers
             await _inventoryService.ReplenishStockAsync();
             return Ok();
         }
+
+        [HttpPost("add")]
+        public async Task<IActionResult> AddProduct([FromBody] ProductDTO productDto)
+        {
+            await _inventoryManagementService.AddProductAsync(productDto);
+            return Ok("Produto adicionado com sucesso");
+        }
+
+        [HttpDelete("{productId}")]
+        public async Task<IActionResult> RemoveProduct(int productId)
+        {
+            await _inventoryManagementService.RemoveProductAsync(productId);
+            return Ok("Produto removido com sucesso");
+        }
+
+        [HttpPut("update")]
+        public async Task<IActionResult> UpdateProduct([FromBody] ProductDTO productDto)
+        {
+            await _inventoryManagementService.UpdateProductAsync(productDto);
+            return Ok("Produto atualizado com sucesso");
+        }
+
     }
 }

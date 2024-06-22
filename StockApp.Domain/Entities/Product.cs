@@ -40,6 +40,8 @@ namespace StockApp.Domain.Entities
             ValidateDomain(name, description, price, stock, image);
         }
 
+        public Product() { }
+
         public Product(int id, string name, string description, decimal price, int stock, string image)
         {
             DomainExceptionValidation.When(id < 0, "Update Invalid Id value");

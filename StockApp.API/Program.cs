@@ -39,6 +39,9 @@ internal class Program
         builder.Services.AddSwaggerGen();
 
         builder.Services.AddSingleton<IReviewModerationService, ReviewModerationService>();
+        builder.Services.AddScoped<IInventoryManagementService, InventoryManagementService>();
+
+
 
         builder.Services.AddGraphQLServer()
             .AddQueryType<Query>()
