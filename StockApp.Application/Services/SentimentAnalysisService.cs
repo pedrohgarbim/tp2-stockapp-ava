@@ -14,6 +14,12 @@ namespace StockApp.Application.Services
         private readonly string _endpoint;
         private readonly string _apiKey;
 
+
+        public string AnalyzeSentiment(string review)
+        {
+            return "Positive";
+        }
+
         public SentimentAnalysisService(IConfiguration configuration)
         {
             _endpoint = configuration["SentimentAnalysis:Endpoint"];
