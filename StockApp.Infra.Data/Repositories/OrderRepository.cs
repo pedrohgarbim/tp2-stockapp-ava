@@ -31,9 +31,5 @@ namespace StockApp.Infra.Data.Repositories
         {
             return await _context.Orders.Include(o => o.Products).Where(o => o.ProductId == productId).ToListAsync();
         }
-        public  IEnumerable<Order> GetAll()
-        {
-            return _context.Orders.Include(_o => _o.Products).ToList();
-        }
     }
 }
