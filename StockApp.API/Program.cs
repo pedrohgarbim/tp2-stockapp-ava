@@ -122,6 +122,7 @@ internal class Program
             c.AddSecurityRequirement(securityRequirement);
         });
         builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+        builder.Services.AddSingleton<IDiscountService, DiscountService>();
         builder.Services.AddStackExchangeRedisCache(options =>
         {
             options.Configuration = builder.Configuration.GetConnectionString("Redis");
