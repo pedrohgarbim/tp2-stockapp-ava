@@ -38,6 +38,8 @@ internal class Program
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 
+        builder.Services.AddSingleton<IReviewModerationService, ReviewModerationService>();
+
         builder.Services.AddGraphQLServer()
             .AddQueryType<Query>()
             .AddMutationType<Mutation>();
