@@ -42,6 +42,8 @@ internal class Program
         builder.Services.AddScoped<IOrderRepository, OrderRepository>();
         builder.Services.AddScoped<IRecommendationService, RecommendationService>();
         builder.Services.AddScoped<IInventoryManagementService, InventoryManagementService>();
+        builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+        builder.Services.AddScoped<IEmployeePerformanceEvaluationService, EmployeePerformanceEvaluationService>();
 
 
 
