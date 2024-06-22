@@ -17,6 +17,7 @@ namespace StockApp.Infra.Data.Context
         //sqlservericoma.database.windows.net
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
+        public DbSet<Purchase> Purchases { get; set; }
         public DbSet<Supplier> Suppliers { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<Feedback> Feedbacks { get; set; }
