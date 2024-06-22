@@ -34,7 +34,7 @@ internal class Program
         builder.Services.AddSingleton<ISupplierRelationshipManagementService, SupplierRelationshipManagementService>();
         builder.Services.AddControllers();
         builder.Services.AddScoped<IProductRepository, ProductRepository>();
-
+        builder.Services.AddSingleton<IMarketTrendAnalysisService, MarketTrendAnalysisService>();
         builder.Services.AddEndpointsApiExplorer();
         builder.Services.AddSwaggerGen();
 
