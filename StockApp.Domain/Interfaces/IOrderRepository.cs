@@ -7,10 +7,8 @@ using System.Threading.Tasks;
 
 namespace StockApp.Domain.Interfaces
 {
-    public interface IOrderRepository
+   public interface IOrderRepository
     {
-        Task<IEnumerable<Order>> GetByUserIdAsync(string userId);
-        Task<IEnumerable<Order>> GetByProductAsync(int productId);
+        Task <IEnumerable<Order>> GetByUserIdAsync(string userId);
     }
-        
 }

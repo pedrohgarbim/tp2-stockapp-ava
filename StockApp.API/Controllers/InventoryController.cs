@@ -12,16 +12,13 @@ namespace StockApp.API.Controllers
     {
         private readonly IInventoryService _inventoryService;
         private readonly IInventoryManagementService _inventoryManagementService;
-        private readonly IJustInTimeInventoryService _justInTimeInventoryService;
 
         public InventoryController(
             IInventoryService inventoryService,
-            IInventoryManagementService inventoryManagementService,
-            IJustInTimeInventoryService justInTimeInventoryService)
+            IInventoryManagementService inventoryManagementService)
         {
             _inventoryService = inventoryService;
             _inventoryManagementService = inventoryManagementService;
-            _justInTimeInventoryService = justInTimeInventoryService;
         }
 
         [HttpPost("replenish")]
@@ -50,12 +47,6 @@ namespace StockApp.API.Controllers
         {
             await _inventoryManagementService.UpdateProductAsync(productDto);
             return Ok("Produto atualizado com sucesso");
-        }
-        [HttpPost("JIT")]
-        public async Task<IActionResult> OptimizeInventory()
-        {
-            await _justInTimeInventoryService.OptimizeInventoryAsync();
-            return Ok();
         }
 
     }
