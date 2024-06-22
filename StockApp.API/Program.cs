@@ -12,7 +12,7 @@ using Microsoft.OpenApi.Models;
 using StockApp.Application.Interfaces;
 using StockApp.API.GraphQL;
 using Serilog;
-
+using System.Net.Mail;
 
 internal class Program
 {
@@ -77,6 +77,15 @@ internal class Program
         builder.Services.AddScoped<IUserAuditService, UserAuditService>();
         builder.Services.AddScoped<IEmailService, EmailService>();
         builder.Services.AddHttpClient<IWebhookService, WebhookService>();
+
+        // Configuração do serviço de notificação por email
+        builder.Services.AddSingleton(sp => new SmtpClient("smtp.nicolas.undiciati@fatec.sp.gov.br")
+        {
+            Port = 587,
+            Credentials = new System.Net.NetworkCredential("username", "password"),
+            EnableSsl = true,
+        });
+        builder.Services.AddSingleton<IEmailNotificationService, EmailNotificationService>();
 
         var key = Encoding.ASCII.GetBytes("3xmpl3V3ryS3cur3S3cr3tK3y!@#123");
         builder.Services.AddAuthentication(options =>

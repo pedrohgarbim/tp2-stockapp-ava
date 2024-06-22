@@ -18,13 +18,15 @@ namespace StockApp.Application.Services
         private IProductRepository _productRepository;
         private IMapper _mapper;
         private readonly IDistributedCache _cache;
+        private readonly IEmailNotificationService _emailNotificationService;
         private const string CacheKeyPrefix = "Product_";
 
-        public ProductService(IProductRepository productRepository, IMapper mapper, IDistributedCache cache)
+        public ProductService(IProductRepository productRepository, IMapper mapper, IDistributedCache cache, IEmailNotificationService emailNotificationService)
         {
             _productRepository = productRepository;
             _mapper = mapper;
             _cache = cache;
+            _emailNotificationService = emailNotificationService;
         }
 
         public async Task Add(ProductDTO productDto)
