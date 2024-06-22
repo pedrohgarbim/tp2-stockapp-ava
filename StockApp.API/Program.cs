@@ -39,6 +39,8 @@ internal class Program
         builder.Services.AddSwaggerGen();
 
         builder.Services.AddSingleton<IReviewModerationService, ReviewModerationService>();
+        builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+        builder.Services.AddScoped<IRecommendationService, RecommendationService>();
         builder.Services.AddScoped<IInventoryManagementService, InventoryManagementService>();
 
 
