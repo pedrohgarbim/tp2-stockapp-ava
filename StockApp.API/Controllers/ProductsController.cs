@@ -34,15 +34,14 @@ namespace StockApp.API.Controllers
         }
 
         /// <summary>
-        /// Obtém todos os produtos.
+        /// Obtém todos os produtos com paginação.
         /// </summary>
         /// <returns>Lista de produtos.</returns>
-
         [HttpGet]
         [ResponseCache(Duration = 60, Location = ResponseCacheLocation.Any, NoStore = false)]
-        public async Task<ActionResult<IEnumerable<Product>>> GetAll()
+        public async Task<ActionResult<IEnumerable<Product>>> GetAll([FromQuery] int pageNumber = 1, [FromQuery] int pageSize = 10)
         {
-            var products = await _productRepository.GetAllAsync();
+            var products = await _productRepository.GetAllAsync(pageNumber, pageSize);
             return Ok(products);
         }
 
@@ -51,7 +50,6 @@ namespace StockApp.API.Controllers
         /// </summary>
         /// <param name="id">O ID do produto.</param>
         /// <returns>O produto correspondente ao ID.</returns>
-
         [HttpGet("{id}")]
         public async Task<ActionResult<Product>> GetById(int id)
         {
@@ -68,7 +66,6 @@ namespace StockApp.API.Controllers
         /// </summary>
         /// <param name="product">O produto a ser criado.</param>
         /// <returns>O produto criado.</returns>
-
         [HttpPost]
         public async Task<ActionResult<Product>> Create(Product product)
         {
@@ -78,8 +75,7 @@ namespace StockApp.API.Controllers
             }
 
             await _productRepository.AddAsync(product);
-            return CreatedAtAction(nameof(GetById), new {id = product.Id}, product);
-           
+            return CreatedAtAction(nameof(GetById), new { id = product.Id }, product);
         }
 
         /// <summary>
@@ -88,7 +84,6 @@ namespace StockApp.API.Controllers
         /// <param name="id">O ID do produto a ser atualizado.</param>
         /// <param name="product">Os dados atualizados do produto.</param>
         /// <returns>No content.</returns>
-
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, Product product)
         {
@@ -112,7 +107,6 @@ namespace StockApp.API.Controllers
         /// </summary>
         /// <param name="id">O ID do produto a ser deletado.</param>
         /// <returns>No content.</returns>
-
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
@@ -130,7 +124,6 @@ namespace StockApp.API.Controllers
         /// </summary>
         /// <param name="products">A lista de produtos a serem atualizados.</param>
         /// <returns>No content.</returns>
-
         [HttpPut("bulk-update")]
         public async Task<ActionResult> BulkUpdate([FromBody] List<Product> products)
         {
@@ -145,11 +138,10 @@ namespace StockApp.API.Controllers
         /// <param name="sortBy">Campo de ordenação.</param>
         /// <param name="descending">Se a ordenação deve ser descendente.</param>
         /// <returns>Lista de produtos que correspondem aos critérios de busca.</returns>
-
         [HttpGet("search")]
-        public async Task<ActionResult<IEnumerable<Product>>> Search (
-            [FromQuery] string query, 
-            [FromQuery] string sortBy, 
+        public async Task<ActionResult<IEnumerable<Product>>> Search(
+            [FromQuery] string query,
+            [FromQuery] string sortBy,
             [FromQuery] bool descending)
         {
             var products = await _productRepository.SearchAsync(query, sortBy, descending);
@@ -160,7 +152,6 @@ namespace StockApp.API.Controllers
         /// Exporta os produtos para um arquivo CSV.
         /// </summary>
         /// <returns>Arquivo CSV contendo todos os produtos.</returns>
-
         [HttpGet("export-csv")]
         public async Task<ActionResult<IEnumerable<Product>>> ExportToCsv()
         {
@@ -183,7 +174,6 @@ namespace StockApp.API.Controllers
         /// <param name="minPrice">Preço mínimo.</param>
         /// <param name="maxPrice">Preço máximo.</param>
         /// <returns>Lista de produtos filtrados.</returns>
-
         [HttpGet("filtered")]
         public async Task<ActionResult<IEnumerable<Product>>> GetFiltered([FromQuery] string name, [FromQuery] decimal? minPrice, [FromQuery] decimal? maxPrice)
         {
@@ -197,7 +187,6 @@ namespace StockApp.API.Controllers
         /// <param name="id">ID do produto.</param>
         /// <param name="image">Arquivo de imagem a ser carregado.</param>
         /// <returns>Status da operação.</returns>
-
         [HttpPost("{id}/upload-image")]
         public async Task<IActionResult> UploadImage(int id, IFormFile image)
         {
@@ -223,11 +212,10 @@ namespace StockApp.API.Controllers
         /// </summary>
         /// <param name="file">Arquivo CSV contendo os produtos.</param>
         /// <returns>Status da operação.</returns>
-
         [HttpPost("import")]
         public async Task<IActionResult> ImportFromCsv(IFormFile file)
         {
-            if (file == null || file.Length == 0) 
+            if (file == null || file.Length == 0)
             {
                 return BadRequest("Invalid file.");
             }
@@ -237,12 +225,18 @@ namespace StockApp.API.Controllers
             return Ok();
         }
 
-        [HttpPost("{productsId}/review")]
+        /// <summary>
+        /// Adiciona uma avaliação a um produto.
+        /// </summary>
+        /// <param name="productId">ID do produto.</param>
+        /// <param name="review">Dados da avaliação.</param>
+        /// <returns>Status da operação.</returns>
+        [HttpPost("{productId}/review")]
         public async Task<IActionResult> AddReview(int productId, [FromBody] Review review)
         {
             try
             {
-                if(review.Rating < 1|| review.Rating > 5)
+                if (review.Rating < 1 || review.Rating > 5)
                 {
                     return BadRequest("A nota deve estar entre 1 e 5");
                 }
@@ -260,13 +254,16 @@ namespace StockApp.API.Controllers
             }
         }
 
+        /// <summary>
+        /// Compara vários produtos com base nos IDs fornecidos.
+        /// </summary>
+        /// <param name="productIds">Lista de IDs dos produtos a serem comparados.</param>
+        /// <returns>Lista de produtos comparados.</returns>
         [HttpPost("compare")]
         public async Task<ActionResult<IEnumerable<Product>>> CompareProducts([FromBody] List<int> productIds)
         {
             var products = await _productRepository.GetByIdsAsync(productIds);
             return Ok(products);
         }
-
-
     }
 }
