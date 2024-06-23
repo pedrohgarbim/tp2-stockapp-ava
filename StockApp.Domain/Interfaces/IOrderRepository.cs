@@ -11,5 +11,7 @@ namespace StockApp.Domain.Interfaces
     {
         Task <IEnumerable<Order>> GetByUserIdAsync(string userId);
         Task<IEnumerable<Order>> GetByProductAsync(int productId);
+        IEnumerable<Order> GetAll();
+
     }
 }
