@@ -13,6 +13,11 @@ using StockApp.Application.Interfaces;
 using StockApp.API.GraphQL;
 using Serilog;
 using System.Net.Mail;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using Microsoft.AspNetCore.SignalR;
+using StockApp.API.Hubs;
 
 internal class Program
 {
@@ -146,6 +151,11 @@ internal class Program
         {
             options.Configuration = builder.Configuration.GetConnectionString("Redis");
         });
+
+        // Add SignalR
+        builder.Services.AddSignalR();
+
+
         var app = builder.Build();
 
         // Configure the HTTP request pipeline.
@@ -179,6 +189,8 @@ internal class Program
         });
 
         app.UseResponseCaching();
+
+        app.MapHub<StockHub>("/stockhub");
 
         app.MapControllers();
 

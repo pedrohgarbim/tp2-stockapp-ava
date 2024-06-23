@@ -10,6 +10,8 @@ using StockApp.Domain.Interfaces;
 using StockApp.API.Resources;
 using StockApp.Application.Services;
 using StockApp.Application.Interfaces;
+using Microsoft.AspNetCore.SignalR;
+using StockApp.API.Hubs;
 
 namespace StockApp.API.Controllers
 {
@@ -22,15 +24,17 @@ namespace StockApp.API.Controllers
         private readonly ProductImportService _productImportService;
         private readonly IReviewService _reviewService;
         private readonly IReviewRepository _reviewRepository;
+        private readonly IHubContext<StockHub> _stockHubContext;
 
         public ProductsController
-            (IProductRepository productRepository, IStringLocalizer<SharedResource> localizer, ProductImportService productImportService, IReviewService reviewService, IReviewRepository reviewRepository)
+            (IProductRepository productRepository, IStringLocalizer<SharedResource> localizer, ProductImportService productImportService, IReviewService reviewService, IReviewRepository reviewRepository, IHubContext<StockHub> stockHubContext)
         {
             _productRepository = productRepository;
             _localizer = localizer;
             _productImportService = productImportService;
             _reviewService = reviewService;
             _reviewRepository = reviewRepository;
+            _stockHubContext = stockHubContext;
         }
 
         /// <summary>
