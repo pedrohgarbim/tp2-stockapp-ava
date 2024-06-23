@@ -41,6 +41,7 @@ namespace StockApp.Infra.IoC
             services.AddScoped<IJustInTimeInventoryService, JustInTimeInventoryService>();
             services.AddScoped<IOrderRepository, OrderRepository>();
             services.AddScoped<IOrdersPredictionService, OrdersPredictionService>();
+            services.AddScoped<IReportService, ReportService>();
 
             services.AddAutoMapper(typeof(DomainToDTOMappingProfile));
 
