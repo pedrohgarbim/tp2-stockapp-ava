@@ -154,6 +154,8 @@ internal class Program
 
         builder.Services.AddSingleton<IPerformanceMetricsService, PerformanceMetricsService>();
 
+        builder.Services.AddSingleton<IProjectManagementService, ProjectManagementService>();
+
         // Add SignalR
         builder.Services.AddSignalR();
 
