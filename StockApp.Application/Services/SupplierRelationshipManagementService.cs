@@ -11,7 +11,23 @@ namespace StockApp.Application.Services
 {
     public class SupplierRelationshipManagementService : ISupplierRelationshipManagementService
     {
-        private readonly List<SupplierDto> _suppliers;
+        private readonly List<SupplierDto> _suppliers = new List<SupplierDto>();
+
+        public async Task<SupplierDto> AddSupplierAsync(CreateSupplierDto createSupplierDto)
+        {
+            var supplier = new SupplierDto
+            {
+                Id = _suppliers.Count + 1,
+                Name = createSupplierDto.Name,
+                ContactEmail = createSupplierDto.ContactNumber,
+                PhoneNumber = createSupplierDto.PhoneNumber,
+
+            };
+
+            _suppliers.Add(supplier);
+
+            return await Task.FromResult(supplier);
+        }
 
         public async Task<SupplierDto> EvaluateSupplierAsync(int supplierId)
         {

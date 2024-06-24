@@ -9,6 +9,7 @@ namespace StockApp.Domain.Interfaces
 {
     public interface ISupplierRelationshipManagementService
     {
+        Task<SupplierDto> AddSupplierAsync(CreateSupplierDto createSupplierDto);
         Task<SupplierDto> EvaluateSupplierAsync(int supplierId);
         Task<bool> RenewContractAsync(int supplierId);
     }
