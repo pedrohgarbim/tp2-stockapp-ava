@@ -13,6 +13,13 @@ namespace StockApp.API.Controllers
             _supplierRelationshipManagementService = supplierRelationshipManagementService;
         }
 
+        [HttpPost("add")]
+        public async Task<ActionResult<SupplierDto>> AddSupplier([FromBody] CreateSupplierDto createSupplierDto)
+        {
+            var supplier = await _supplierRelationshipManagementService.AddSupplierAsync(createSupplierDto);
+            return Ok(supplier);
+        }
+
         [HttpGet("evaluate({supplierId}")]
         public async Task<ActionResult<SupplierDto>> EvaluateSupplier(int supplierId)
         {
