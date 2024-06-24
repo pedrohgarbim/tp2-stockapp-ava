@@ -156,6 +156,8 @@ internal class Program
 
         builder.Services.AddSingleton<IProjectManagementService, ProjectManagementService>();
 
+        builder.Services.AddSingleton<IDemandPlanningService, DemandPlanningService>();
+
         // Add SignalR
         builder.Services.AddSignalR();
 
