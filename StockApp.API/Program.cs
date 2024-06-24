@@ -152,9 +152,10 @@ internal class Program
             options.Configuration = builder.Configuration.GetConnectionString("Redis");
         });
 
+        builder.Services.AddSingleton<IPerformanceMetricsService, PerformanceMetricsService>();
+
         // Add SignalR
         builder.Services.AddSignalR();
-
 
         var app = builder.Build();
 
