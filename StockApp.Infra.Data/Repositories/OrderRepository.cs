@@ -37,5 +37,15 @@ namespace StockApp.Infra.Data.Repositories
                 .ToListAsync();
 
         }
+
+        public async Task<int> GetCount()
+        {
+            return await _context.Orders.CountAsync();
+        }
+
+        public async Task<int> GetSales()
+        {            
+            return await _context.Orders.SumAsync(o=> o.Products.Count);
+        }
     }
 }
