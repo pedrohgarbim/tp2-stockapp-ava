@@ -27,6 +27,20 @@ namespace StockApp.API.Controllers
             _emailService = emailService;
         }
 
+        [HttpPost("register")]
+        public async Task<ActionResult<User>> Register([FromBody] UserRegisterDto userRegisterDto)
+        {
+            var user = new User
+            {
+                Username = userRegisterDto.Username,
+                PasswordHash = BCrypt.Net.BCrypt.HashPassword(userRegisterDto.Password),
+                Role = userRegisterDto.Role
+            };
+
+            await _userRepository.AddAsync(user);
+            return Ok();
+        }
+
         [HttpPost("forgot-password")]
         public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordDto forgotPasswordDto)
         {
