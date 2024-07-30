@@ -1,3 +1,4 @@
+# Para total visualização de tudo o que foi feito pela equipe, todos os commits, seguir para https://github.com/joaoveasey/tp2-stockapp-ava
 # Descrição Detalhada do Repositório `tp2-stockapp` -  documentação e prova de victoricoma
 #### Visão Geral
 
