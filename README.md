@@ -1,5 +1,5 @@
 # Para total visualização de tudo o que foi feito pela equipe, todos os meus commits e do meu grupo, seguir para https://github.com/joaoveasey/tp2-stockapp-ava
-# Descrição Detalhada do Repositório `tp2-stockapp` -  documentação e prova de victoricoma
+
 #### Visão Geral
 
 O repositório `tp2-stockapp` é um projeto desenvolvido em C# utilizando .NET Core, seguindo os princípios da Clean Architecture. A aplicação serve para gerenciar o estoque de produtos de uma empresa, permitindo o cadastro, atualização, visualização e remoção de itens no estoque. A aplicação possui endpoints documentados utilizando Swagger, mas ainda não implementa autenticação JWT. A comunicação com o banco de dados é realizada via Azure SQL Server, utilizando Entity Framework.
